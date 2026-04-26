@@ -83,7 +83,6 @@ Esta regla permite contar los paquetes y bytes recibidos hacia el puerto UDP 555
 
 ---
 
-### 5. Parte de diseño 2.b
 ## 2.b Arquitectura estación de trenes
 
 La estación cuenta con cinco cámaras inteligentes:
@@ -160,17 +159,17 @@ Se siguieron los siguientes pasos:
 
 Se descargó un video de prueba que será utilizado como entrada para el modelo YOLO.
 <img width="792" height="453" alt="image" src="https://github.com/user-attachments/assets/a55c4dc6-f65e-464e-b078-3dfbc7ccdeea" /> 
-1 descarga_video
+*Figura 1. Descarga del video*
 
 ### Carga del modelo YOLO
 Se cargó correctamente el modelo YOLOv8, verificando su funcionamiento en el entorno de ejecución.
 <img width="750" height="341" alt="image" src="https://github.com/user-attachments/assets/07a52c02-f71b-4a02-8b12-58e56a25c36a" />
-2. Modelo_YOLO
+*Figura 2. Carga del modelo YOLO*
 
 ### Captura de tráfico con tcpdump
 Se inició la captura de paquetes UDP en el puerto 5555 utilizando tcpdump.
 <img width="783" height="673" alt="image" src="https://github.com/user-attachments/assets/7a498cde-7e4b-4020-948a-0b9d8fc2d5af" />
-3 Captura de tráfico con tcpdump
+*Figura 3. Captura de tráfico don tdpdump*
 
 ### Identificación de la 5-tuple
 La 5-tuple es un conjunto de cinco parámetros que identifican un flujo de red.
@@ -182,14 +181,15 @@ Se analizaron los paquetes capturados, identificando los campos de la 5-tuple:
 - Puerto destino: 5555  
 - Protocolo: UDP  
 <img width="1133" height="673" alt="image" src="https://github.com/user-attachments/assets/b7b10e5e-8221-430f-9393-6ac40b6cf4b6" />
-4 Análisis de paquetes (5-tuple)
+*Figura 4. Análisis de paquetes (5-tuple)*
+
 ### Tráfico normal
 
 Se generaron 30 paquetes UDP, contabilizando:
 - Paquetes: 30  
 - Bytes: 610  
 <img width="741" height="458" alt="image" src="https://github.com/user-attachments/assets/cfa3615e-2114-4180-b6f4-fed278e91ef1" />
-5 Tráfico normal
+*Figura 5. Tráfico normal*
 
 ### Simulación de anomalía
 Se incrementó el tráfico a 500 paquetes UDP, observando:
@@ -199,7 +199,7 @@ Se incrementó el tráfico a 500 paquetes UDP, observando:
 
 Esto evidencia un aumento significativo en el tráfico, indicando posible congestión o comportamiento anómalo.
 <img width="728" height="639" alt="image" src="https://github.com/user-attachments/assets/33ce803c-e9eb-49e5-bf79-b253f8ef241e" />
-6 Tráfico con anomalia
+*Figura 6. Tráfico con anomalia*
 
 ## Respuestas del parcial
 
