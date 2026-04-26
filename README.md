@@ -145,11 +145,78 @@ Para mitigar el jitter se puede usar:
 - Priorización del tráfico de video
 - Sincronización por timestamps
 
-  
-<img width="792" height="453" alt="image" src="https://github.com/user-attachments/assets/a55c4dc6-f65e-464e-b078-3dfbc7ccdeea" />
+## Metodología
 
-<img width="779" height="681" alt="image" src="https://github.com/user-attachments/assets/a281d15f-e83d-489a-ba59-dea68a943145" />
+Se siguieron los siguientes pasos:
 
+1. Generación de tráfico UDP usando Python y YOLO
+2. Captura del tráfico con tcpdump
+3. Identificación de la 5-tuple
+4. Análisis del tráfico generado
+5. Simulación de IP Accounting
+6. Generación de tráfico anómalo
+
+### Descarga del video
+
+Se descargó un video de prueba que será utilizado como entrada para el modelo YOLO.
+<img width="792" height="453" alt="image" src="https://github.com/user-attachments/assets/a55c4dc6-f65e-464e-b078-3dfbc7ccdeea" /> 
+1 descarga_video
+
+### Carga del modelo YOLO
+Se cargó correctamente el modelo YOLOv8, verificando su funcionamiento en el entorno de ejecución.
+<img width="750" height="341" alt="image" src="https://github.com/user-attachments/assets/07a52c02-f71b-4a02-8b12-58e56a25c36a" />
+2. Modelo_YOLO
+
+### Captura de tráfico con tcpdump
+Se inició la captura de paquetes UDP en el puerto 5555 utilizando tcpdump.
+<img width="783" height="673" alt="image" src="https://github.com/user-attachments/assets/7a498cde-7e4b-4020-948a-0b9d8fc2d5af" />
+3 Captura de tráfico con tcpdump
+
+### Identificación de la 5-tuple
+La 5-tuple es un conjunto de cinco parámetros que identifican un flujo de red.
+Se analizaron los paquetes capturados, identificando los campos de la 5-tuple:
+
+- IP origen: 127.0.0.1  
+- IP destino: 127.0.0.1  
+- Puerto origen: 44042  
+- Puerto destino: 5555  
+- Protocolo: UDP  
+<img width="1133" height="673" alt="image" src="https://github.com/user-attachments/assets/b7b10e5e-8221-430f-9393-6ac40b6cf4b6" />
+4 Análisis de paquetes (5-tuple)
+### Tráfico normal
+
+Se generaron 30 paquetes UDP, contabilizando:
+- Paquetes: 30  
+- Bytes: 610  
 <img width="741" height="458" alt="image" src="https://github.com/user-attachments/assets/cfa3615e-2114-4180-b6f4-fed278e91ef1" />
+5 Tráfico normal
 
+### Simulación de anomalía
+Se incrementó el tráfico a 500 paquetes UDP, observando:
+
+- Paquetes: 500  
+- Bytes: 10765  
+
+Esto evidencia un aumento significativo en el tráfico, indicando posible congestión o comportamiento anómalo.
 <img width="728" height="639" alt="image" src="https://github.com/user-attachments/assets/33ce803c-e9eb-49e5-bf79-b253f8ef241e" />
+6 Tráfico con anomalia
+
+## ¿Qué campo usaría para diferenciar aplicaciones?
+Para diferenciar aplicaciones se analiza el puerto de destino dentro de la 5-tuple. 
+Por ejemplo, HTTP usa el puerto 80, mientras que en este laboratorio el tráfico generado utiliza el puerto 5555.
+
+### Simulación de sFlow
+
+Se puede simular sFlow enviando solo una muestra de los datos, por ejemplo:
+
+```python
+if i % 10 == 0:
+    sock.sendto(mensaje, ("127.0.0.1", 5555))
+```
+Esto reduce la cantidad de tráfico enviado y es útil en enlaces de alta velocidad.
+
+## Conclusión
+
+Se aplicaron conceptos clave de teletráfico como la identificación de flujos mediante la 5-tuple, el análisis de tráfico con tcpdump y la simulación de IP Accounting.
+Además, se evidenció cómo un incremento en el número de paquetes genera una anomalía en la red, lo cual permite detectar posibles situaciones de congestión o ataques.
+Estos resultados demuestran la importancia del monitoreo de red en sistemas modernos.
