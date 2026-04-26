@@ -201,19 +201,39 @@ Esto evidencia un aumento significativo en el tráfico, indicando posible conges
 <img width="728" height="639" alt="image" src="https://github.com/user-attachments/assets/33ce803c-e9eb-49e5-bf79-b253f8ef241e" />
 6 Tráfico con anomalia
 
-## ¿Qué campo usaría para diferenciar aplicaciones?
-Para diferenciar aplicaciones se analiza el puerto de destino dentro de la 5-tuple. 
+## Respuestas del parcial
+
+### ¿Qué campo de la 5-tuple permite diferenciar aplicaciones?
+
+Para diferenciar aplicaciones se analiza el puerto de destino dentro de la 5-tuple, ya que cada aplicación utiliza puertos específicos. 
 Por ejemplo, HTTP usa el puerto 80, mientras que en este laboratorio el tráfico generado utiliza el puerto 5555.
 
-### Simulación de sFlow
+---
 
-Se puede simular sFlow enviando solo una muestra de los datos, por ejemplo:
+### ¿Cómo simular sFlow?
+
+Se puede simular sFlow enviando solo una muestra del tráfico, por ejemplo:
 
 ```python
 if i % 10 == 0:
     sock.sendto(mensaje, ("127.0.0.1", 5555))
 ```
-Esto reduce la cantidad de tráfico enviado y es útil en enlaces de alta velocidad.
+Esto reduce la cantidad de paquetes enviados y es útil en enlaces de alta velocidad.
+---
+### ¿Cuántos bytes se contabilizaron?
+
+En condiciones normales se enviaron 30 paquetes, con un total de 610 bytes.
+---
+### ¿Qué comando permite ver el tráfico UDP hacia el puerto 5555?
+```bash
+tcpdump -nn -r /tmp/flujos.pcap
+```
+También se puede usar:
+```bash
+iptables -L -v -n | grep dpt:5555
+```
+Debido a limitaciones en Colab, este conteo se simuló mediante Python.
+---
 
 ## Conclusión
 
